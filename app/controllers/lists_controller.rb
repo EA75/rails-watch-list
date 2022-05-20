@@ -1,11 +1,13 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[ show edit destroy ]
+  before_action :set_list, only: %i[ show destroy ]
 
   def index
     @lists = List.all
   end
 
-  def show() end
+  def show
+    @bookmark = Bookmark.new
+end
 
   def new
     @list = List.new
@@ -13,11 +15,13 @@ class ListsController < ApplicationController
 
   def create
     @list = List.new(list_params)
-    @list.save
-    redirect_to list_path(@list)
-  end
+    if @list.save
+      redirect_to list_path(@list)
+    else
+      render :new, status: :unprocessable_entity
+    end
 
-  def edit() end
+  end
 
   def destroy
     @list.destroy

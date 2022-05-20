@@ -14,15 +14,20 @@
 </div>
 
 <div class = "container">
-  <h1> My Lists</h1>
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h3 class="mb-0">My Lists</h3>
+    <%= link_to "Create a movie list", new_list_path, class: "btn btn-flat" %>
+  </div>
   <div class="cards">
     <% @lists.each do |list| %>
       <% if list.image.attached? %>
-        <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('<%= cl_image_path list.image.key, height: 300, crop: :fill %>')">
+        <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('<%= cl_image_path list.image.key, crop: :fill %>')">
         <%= link_to list.name, list_path(list)%>
+        <%= link_to '<i class="fa-solid fa-trash"></i>'.html_safe, list_path(list), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
         </div>
       <% else %>
         <%= link_to list.name, list_path(list)%>
+        <%= link_to '<i class="fa-solid fa-trash"></i>'.html_safe, list_path(list), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
       <% end %>
     <% end %>
   </div>
